@@ -1,6 +1,8 @@
+import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import ReactFlow from 'reactflow';
 import 'reactflow/dist/style.css';
+
 import styles from '../styles/flow.module.scss';
 
 const initialNodes = [
@@ -54,6 +56,10 @@ export default function Flow() {
 
   return (
     <main className={styles.main}>
+      <Head>
+        <title>React Flow Test</title>
+      </Head>
+
       <h1>Ola mundo</h1>
       <button onClick={() => enviaDados()}>Botão</button>
       <ReactFlow nodes={nodes} edges={edges} fitView />
