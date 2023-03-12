@@ -106,7 +106,7 @@ export default function Flow() {
       {
         id: String(nodes.length+1),
         data: { label: `${name}` },
-        position: { x: 250, y: 25 }
+        position: { x: (500 + (nodes.length - 8) * 100), y: 0 }
       },
     ]
 
