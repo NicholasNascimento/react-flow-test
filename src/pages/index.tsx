@@ -5,35 +5,59 @@ import 'reactflow/dist/style.css';
 
 import styles from '../styles/flow.module.scss';
 
-// const initialNodes = [
-//   {
-//     id: '0',
-//     data: { label: '' },
-//     position: { x: 0, y: 0 },
-//     type: 'input',
-//   },
-// ];
-
 const initialNodes = [
   {
     id: '1',
-    data: { label: 'Você está bem?' },
+    data: { label: 'O que você gostaria de fazer com esse móvel' },
     position: { x: 0, y: 0 },
     type: 'input',
+  },
+  {
+    id: '2',
+    data: { label: 'Na faixa de preço' },
+    position: { x: 100, y: 100 },
+  },
+  {
+    id: '3',
+    data: { label: 'Por quanto tempo?' },
+    position: { x: 200, y: 200 },
+  },
+  {
+    id: '4',
+    data: { label: 'Qual é o defeito' },
+    position: { x: 300, y: 300 },
+  },
+  {
+    id: '5',
+    data: { label: 'O que você deseja fazer?' },
+    position: { x: 400, y: 400 },
+  },
+  {
+    id: '6',
+    data: { label: 'Vermelho' },
+    position: { x: 500, y: 500 },
+  },
+  {
+    id: '7',
+    data: { label: 'Azul' },
+    position: { x: 600, y: 600 },
+  },
+  {
+    id: '8',
+    data: { label: 'Adicionar led' },
+    position: { x: 700, y: 700 },
   }
-  // {
-  //   id: '2',
-  //   data: { label: 'Na faixa de preço' },
-  //   position: { x: 100, y: 100 },
-  // },
-  // {
-  //   id: '3',
-  //   data: { label: 'Data' },
-  //   position: { x: 200, y: 200 },
-  // },
 ];
 
-const initialEdges = [];
+const initialEdges = [
+  { id: 'e1-2', source: '1', target: '2', label: 'Vender' },
+  { id: 'e1-3', source: '1', target: '3', label: 'Alugar' },
+  { id: 'e1-4', source: '1', target: '4', label: 'Consertar' },
+  { id: 'e1-5', source: '1', target: '5', label: 'Decorar' },
+  { id: 'e5-6', source: '5', target: '6', label: 'Pintar' },
+  { id: 'e5-7', source: '5', target: '7', label: 'Pintar' },
+  { id: 'e5-8', source: '5', target: '8', label: 'Enfeitar' }
+];
 
 const nodeColor = (node) => {
   switch (node.type) {
@@ -52,7 +76,6 @@ export default function Flow() {
   const [title, setTitle] = useState("")
   const [active, setActive] = useState(false)
   const [nodeType, setNodeType] = useState("text")
-  const [allTitles, setAllTitles] = useState('')
   const edgeUpdateSuccessful = useRef(true);
   const [selectedImage, setSelectedImage] = useState("")
   const [selectedFile, setSelectedFile] = useState<File>()
@@ -91,6 +114,7 @@ export default function Flow() {
       console.log(error)
     } finally {
       localStorage.setItem('nodes', JSON.stringify(newNodes))
+      setTitle("")
     }
   }
 
@@ -104,12 +128,7 @@ export default function Flow() {
       let dataString = localStorage.getItem('nodes')
       setNodes(JSON.parse(dataString))
     }
-    //console.log(titleObj)
-  }, [allTitles])
-
-  useEffect(() => {
-    console.log(nodes)
-  }, [nodes])
+  }, [])
 
   return (
     <main className={styles.main}>
