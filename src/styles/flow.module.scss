@@ -5,20 +5,48 @@
 
 .form {
   display: flex;
-  width: fit-content;
-  height: 15vh;
-  margin: 0 auto;
-  gap: 2rem;
-  align-items: center;
-
-  input {
-    width: 60rem;
-    height: 3rem;
-    border-radius: 15px;
-    border: 2px solid var(--purple-500);
-  }
+  width: 80vw;
+  height: 35vh;
+  margin: 2rem auto 0;
 
   button {
+    padding: 1rem;
+    width: 20rem;
+    border: none;
+
+    text-align: left;
+
+    transition: opacity 0.3s;
+    
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
+
+.status {
+  width: 30vw;
+
+  div {
+    position: absolute;
+
+    button {
+      padding: 1rem;
+      width: 20rem;
+      display: block;
+
+      text-align: left;
+      border: none;
+    }
+  }
+}
+
+.input-option {
+  width: 50vw;
+
+  button {
+    position: absolute;
+    top: 17rem;
     width: 5rem;
     height: 3rem;
     border-radius: 15px;
@@ -32,10 +60,60 @@
   }
 }
 
+.text {
+  height: 20vh;
+  display: flex;
+  gap: 2rem;
+  
+
+  input {
+    width: 60rem;
+    height: 3rem;
+    border-radius: 15px;
+    border: 2px solid var(--purple-500);
+  }
+}
+
+.picture {
+  display: block;
+  aspect-ratio: 16/9;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--gray-700);
+  border: 2px dashed var(--purple-500);
+
+  transition: all 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--gray-500);
+  }
+}
+
 .flow {
   max-width: 80vw;
   margin: 0 auto;
-  height: 85vh;
+  height: 60vh;
   border: 2px solid var(--purple-500);
   border-radius: 10px;
+}
+
+.picture__input {
+  width: 100%;
+  aspect-ratio: 16/9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.picture__img {
+  max-width: 100%;
 }
