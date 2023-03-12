@@ -83,8 +83,8 @@ const Flow = () => {
   const edgeUpdateSuccessful = useRef(true);
   const [selectedImage, setSelectedImage] = useState("")
   const [selectedFile, setSelectedFile] = useState<File>()
-  const [rfInstance, setRfInstance] = useState(null);
-  const { setViewport } = useReactFlow();
+  const [rfInstance, setRfInstance] = useState(null)
+  const { setViewport } = useReactFlow()
 
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
 
