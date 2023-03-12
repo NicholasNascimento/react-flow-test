@@ -74,6 +74,34 @@
   }
 }
 
+.date {
+  height: 20vh;
+  display: flex;
+  gap: 2rem;
+  
+
+  input {
+    width: 15rem;
+    height: 3rem;
+    border-radius: 5px;
+    border: 2px solid var(--purple-500);
+  }
+}
+
+.valor {
+  height: 20vh;
+  display: flex;
+  gap: 2rem;
+  
+
+  input {
+    width: 10rem;
+    height: 2rem;
+    border-radius: 5px;
+    border: 2px solid var(--purple-500);
+  }
+}
+
 .picture {
   display: block;
   aspect-ratio: 16/9;

@@ -74,6 +74,8 @@ export default function Flow() {
   const [nodes, setNodes , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [title, setTitle] = useState("")
+  const [date, setDate] = useState("2018-07-22")
+  const [valor, setValor] = useState("")
   const [active, setActive] = useState(false)
   const [nodeType, setNodeType] = useState("text")
   const edgeUpdateSuccessful = useRef(true);
@@ -99,11 +101,11 @@ export default function Flow() {
     edgeUpdateSuccessful.current = true;
   }, []);
 
-  function sendData() {
+  function sendData(name: string) {
     const newNodes = [...nodes,
       {
         id: String(nodes.length+1),
-        data: { label: `${title}` },
+        data: { label: `${name}` },
         position: { x: 250, y: 25 }
       },
     ]
@@ -115,6 +117,7 @@ export default function Flow() {
     } finally {
       localStorage.setItem('nodes', JSON.stringify(newNodes))
       setTitle("")
+      setValor("")
     }
   }
 
@@ -144,6 +147,8 @@ export default function Flow() {
           {active === true &&
             <div>
               <button onClick={() => changeNodeType("text")}>Texto</button>
+              <button onClick={() => changeNodeType("date")}>Data</button>
+              <button onClick={() => changeNodeType("valor")}>Valor</button>
               <button onClick={() => changeNodeType("image")}>Imagem</button>
             </div>
           }
@@ -157,8 +162,36 @@ export default function Flow() {
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
               />
-              <button onClick={() => sendData()}>Criar</button>
-            </div> :
+              <button onClick={() => sendData(title)}>Criar</button>
+            </div> : nodeType === "date" ?
+            <div className={styles.date}>
+              <label htmlFor="date-start">Selecione uma data:</label>
+
+              <input
+                type="date"
+                id="date-start"
+                name="trip-start"
+                value={date}
+                min="2018-01-01"
+                max="2023-12-31"
+                onChange={(event) => setDate(event.target.value)}
+              />
+              <button onClick={() => sendData(date)}>Criar</button>
+            </div> : nodeType === "valor" ?
+            <div className={styles.valor}>
+              <label htmlFor="valor">Valor:</label>
+
+              <input
+                type="number"
+                id="valor"
+                name="valor"
+                value={valor}
+                min="10"
+                max="10000"
+                onChange={(event) => setValor(event.target.value)}
+              />
+              <button onClick={() => sendData(valor)}>Criar</button>
+            </div> : nodeType === "image" ?
             <div className={styles.picture}>
               <label>
                 <input
@@ -183,7 +216,8 @@ export default function Flow() {
                 </div>
               </label>
               <button>Upload</button>
-            </div>
+            </div> :
+            <div></div>
           }
         </div>
       </div>
