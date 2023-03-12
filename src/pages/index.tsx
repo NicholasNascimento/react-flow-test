@@ -1,9 +1,11 @@
 import Head from 'next/head';
 import { useCallback, useEffect, useState, useRef } from 'react';
-import ReactFlow, { Controls, useNodesState, useEdgesState, applyNodeChanges, applyEdgeChanges, addEdge, updateEdge, MiniMap } from 'reactflow';
+import ReactFlow, { ReactFlowProvider, Controls, useNodesState, useEdgesState, addEdge, updateEdge, MiniMap, useReactFlow } from 'reactflow';
 import 'reactflow/dist/style.css';
 
 import styles from '../styles/flow.module.scss';
+
+const flowKey = 'example-flow';
 
 const initialNodes = [
   {
@@ -70,7 +72,7 @@ const nodeColor = (node) => {
   }
 };
 
-export default function Flow() {
+const Flow = () => {
   const [nodes, setNodes , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [title, setTitle] = useState("")
@@ -81,8 +83,32 @@ export default function Flow() {
   const edgeUpdateSuccessful = useRef(true);
   const [selectedImage, setSelectedImage] = useState("")
   const [selectedFile, setSelectedFile] = useState<File>()
+  const [rfInstance, setRfInstance] = useState(null);
+  const { setViewport } = useReactFlow();
 
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
+  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
+
+  const onSave = useCallback(() => {
+    if (rfInstance) {
+      const flow = rfInstance.toObject();
+      localStorage.setItem(flowKey, JSON.stringify(flow));
+    }
+  }, [rfInstance]);
+
+  const onRestore = useCallback(() => {
+    const restoreFlow = async () => {
+      const flow = JSON.parse(localStorage.getItem(flowKey));
+
+      if (flow) {
+        const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+        setNodes(flow.nodes || []);
+        setEdges(flow.edges || []);
+        setViewport({ x, y, zoom });
+      }
+    };
+
+    restoreFlow();
+  }, [setNodes, setViewport]);
 
   const onEdgeUpdateStart = useCallback(() => {
     edgeUpdateSuccessful.current = false;
@@ -127,9 +153,15 @@ export default function Flow() {
   }
 
   useEffect(() => {
-    if(localStorage.getItem('nodes')){
-      let dataString = localStorage.getItem('nodes')
-      setNodes(JSON.parse(dataString))
+    if(localStorage.getItem(flowKey)){
+      const flow = JSON.parse(localStorage.getItem(flowKey));
+
+      if (flow) {
+        const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+        setNodes(flow.nodes || []);
+        setEdges(flow.edges || []);
+        setViewport({ x, y, zoom });
+      }
     }
   }, [])
 
@@ -234,9 +266,14 @@ export default function Flow() {
             onEdgeUpdateStart={onEdgeUpdateStart}
             onEdgeUpdateEnd={onEdgeUpdateEnd}
             onConnect={onConnect}
+            onInit={setRfInstance}
             fitView
             attributionPosition="top-right"
           >
+            <div className={styles.save__controls}>
+              <button onClick={onSave}>Salvar</button>
+              <button onClick={onRestore}>Restaurar</button>
+            </div>
             <Controls />
             <MiniMap nodeColor={nodeColor} nodeStrokeWidth={3} zoomable pannable />
           </ReactFlow>
@@ -245,3 +282,9 @@ export default function Flow() {
     </main>
   );
 }
+
+export default () => (
+  <ReactFlowProvider>
+    <Flow />
+  </ReactFlowProvider>
+);
