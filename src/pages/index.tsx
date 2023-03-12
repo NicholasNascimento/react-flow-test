@@ -164,6 +164,7 @@ const Flow = () => {
         <title>React Flow Test</title>
       </Head>
 
+      <h1>C2S.Test</h1>
       <div className={styles.form}>
         <div className={styles.status}>
           <button className={styles.type} onClick={() => setActive(!active)}>
