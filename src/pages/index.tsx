@@ -9,13 +9,13 @@ const initialNodes = [
   {
     id: '1',
     data: { label: 'O que você gostaria de fazer com esse móvel' },
-    position: { x: 0, y: 0 },
+    position: { x: 300, y: 0 },
     type: 'input',
   },
   {
     id: '2',
     data: { label: 'Na faixa de preço' },
-    position: { x: 100, y: 100 },
+    position: { x: 0, y: 200 },
   },
   {
     id: '3',
@@ -25,27 +25,27 @@ const initialNodes = [
   {
     id: '4',
     data: { label: 'Qual é o defeito' },
-    position: { x: 300, y: 300 },
+    position: { x: 400, y: 200 },
   },
   {
     id: '5',
     data: { label: 'O que você deseja fazer?' },
-    position: { x: 400, y: 400 },
+    position: { x: 600, y: 200 },
   },
   {
     id: '6',
     data: { label: 'Vermelho' },
-    position: { x: 500, y: 500 },
+    position: { x: 300, y: 350 },
   },
   {
     id: '7',
     data: { label: 'Azul' },
-    position: { x: 600, y: 600 },
+    position: { x: 500, y: 350 },
   },
   {
     id: '8',
     data: { label: 'Adicionar led' },
-    position: { x: 700, y: 700 },
+    position: { x: 700, y: 400 },
   }
 ];
 
