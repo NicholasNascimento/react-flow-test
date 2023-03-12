@@ -166,8 +166,8 @@ const Flow = () => {
 
       <div className={styles.form}>
         <div className={styles.status}>
-          <button onClick={() => setActive(!active)}>
-            Selecione o tipo de nó que deseja criar
+          <button className={styles.type} onClick={() => setActive(!active)}>
+            Selecione o tipo de nó
           </button>
           {active === true &&
             <div>
