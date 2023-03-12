@@ -1,9 +1,10 @@
 import Head from 'next/head';
 import { useCallback, useEffect, useState, useRef } from 'react';
 import ReactFlow, { ReactFlowProvider, Controls, useNodesState, useEdgesState, addEdge, updateEdge, MiniMap, useReactFlow } from 'reactflow';
-import 'reactflow/dist/style.css';
 
+import 'reactflow/dist/style.css';
 import styles from '../styles/flow.module.scss';
+import { IoMdArrowDropdown } from 'react-icons/io'
 
 const flowKey = 'example-flow';
 
@@ -168,7 +169,7 @@ const Flow = () => {
       <div className={styles.form}>
         <div className={styles.status}>
           <button className={styles.type} onClick={() => setActive(!active)}>
-            Selecione o tipo de nó
+            Selecione o tipo de nó <strong><IoMdArrowDropdown /></strong>
           </button>
           {active === true &&
             <div>

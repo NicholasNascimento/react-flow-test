@@ -52,7 +52,7 @@
 }
 
 .type {
-  padding: 1rem;
+  padding: 1rem 1rem 0;
   margin: 2rem 0 0 2rem;
   width: 20rem;
   border: none;
@@ -61,6 +61,11 @@
   text-align: left;
 
   transition: opacity 0.3s;
+
+  strong {
+    float: right;
+    font-size: 25px;
+  }
     
   &:hover {
     opacity: 0.9;
