@@ -141,7 +141,6 @@ const Flow = () => {
     } catch(error) {
       console.log(error)
     } finally {
-      localStorage.setItem('nodes', JSON.stringify(newNodes))
       setTitle("")
       setValor("")
     }
