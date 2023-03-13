@@ -2,11 +2,17 @@ import Head from 'next/head';
 import { useCallback, useEffect, useState, useRef } from 'react';
 import ReactFlow, { ReactFlowProvider, Controls, useNodesState, useEdgesState, addEdge, updateEdge, MiniMap, useReactFlow } from 'reactflow';
 
+import ColorSelectorNode from '../components/ColorSelectorNode';
+
 import styles from '../styles/flow.module.scss';
 import 'reactflow/dist/style.css';
 import { IoMdArrowDropdown } from 'react-icons/io'
 
+const initBgColor = '#1A192B';
 const flowKey = 'example-flow';
+const nodeTypes = {
+  selectorNode: ColorSelectorNode,
+};
 
 const initialNodes = [
   {
@@ -157,6 +163,24 @@ const Flow = () => {
     }
   }, [])
 
+  function addImage() {
+    const newNodes = [...nodes,
+      {
+        id: String(nodes.length+1),
+        type: 'selectorNode',
+        data: { label: `${name}` },
+        style: { border: '1px solid #777', padding: 10 },
+        position: { x: (500 + (nodes.length - 8) * 100), y: 0 }
+      },
+    ]
+
+    try {
+      setNodes(newNodes)
+    } catch(error) {
+      console.log(error)
+    }
+  }
+
   return (
     <main className={styles.main}>
       <Head>
@@ -174,6 +198,7 @@ const Flow = () => {
               <button onClick={() => changeNodeType("text")}>Texto</button>
               <button onClick={() => changeNodeType("date")}>Data</button>
               <button onClick={() => changeNodeType("valor")}>Valor</button>
+              <button onClick={() => changeNodeType("image")}>Imagem</button>
             </div>
           }
         </div>
@@ -215,7 +240,10 @@ const Flow = () => {
                 onChange={(event) => setValor(event.target.value)}
               />
               <button onClick={() => addNode(valor)}>Criar</button>
-            </div> : 
+            </div> : nodeType === "image" ?
+            <div>
+              <button onClick={() => addImage()}>Criar</button>
+            </div> :
             <div></div>
           }
         </div>
@@ -228,6 +256,7 @@ const Flow = () => {
             edges={edges}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
+            nodeTypes={nodeTypes}
             snapToGrid
             onEdgeUpdate={onEdgeUpdate}
             onEdgeUpdateStart={onEdgeUpdateStart}
