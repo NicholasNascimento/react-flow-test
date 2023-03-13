@@ -61,7 +61,7 @@ const initialEdges = [
   { id: 'e1-2', source: '1', target: '2', label: 'Vender' },
   { id: 'e1-3', source: '1', target: '3', label: 'Alugar' },
   { id: 'e1-4', source: '1', target: '4', label: 'Consertar' },
-  { id: 'e1-5', source: '1', target: '5', label: 'Decorar' },
+  { id: 'e1-5', source: '1', target: '5', label: 'Modificar' },
   { id: 'e5-6', source: '5', target: '6', label: 'Pintar' },
   { id: 'e5-7', source: '5', target: '7', label: 'Pintar' },
   { id: 'e5-8', source: '5', target: '8', label: 'Customizar' }
