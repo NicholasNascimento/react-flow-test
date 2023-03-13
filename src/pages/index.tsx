@@ -218,7 +218,7 @@ const Flow = () => {
               <input
                 type="date"
                 id="date-start"
-                name="trip-start"
+                name="date-start"
                 value={date}
                 min="2018-01-01"
                 max="2023-12-31"
