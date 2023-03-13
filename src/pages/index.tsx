@@ -2,8 +2,8 @@ import Head from 'next/head';
 import { useCallback, useEffect, useState, useRef } from 'react';
 import ReactFlow, { ReactFlowProvider, Controls, useNodesState, useEdgesState, addEdge, updateEdge, MiniMap, useReactFlow } from 'reactflow';
 
-import 'reactflow/dist/style.css';
 import styles from '../styles/flow.module.scss';
+import 'reactflow/dist/style.css';
 import { IoMdArrowDropdown } from 'react-icons/io'
 
 const flowKey = 'example-flow';
@@ -76,15 +76,13 @@ const nodeColor = (node) => {
 const Flow = () => {
   const [nodes, setNodes , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodeType, setNodeType] = useState("text")
   const [title, setTitle] = useState("")
   const [date, setDate] = useState("2018-07-22")
   const [valor, setValor] = useState("")
   const [active, setActive] = useState(false)
-  const [nodeType, setNodeType] = useState("text")
-  const edgeUpdateSuccessful = useRef(true);
-  const [selectedImage, setSelectedImage] = useState("")
-  const [selectedFile, setSelectedFile] = useState<File>()
   const [rfInstance, setRfInstance] = useState(null)
+  const edgeUpdateSuccessful = useRef(true);
   const { setViewport } = useReactFlow()
 
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
@@ -122,7 +120,7 @@ const Flow = () => {
     edgeUpdateSuccessful.current = true;
   }, []);
 
-  function sendData(name: string) {
+  function addNode(name: string) {
     const newNodes = [...nodes,
       {
         id: String(nodes.length+1),
@@ -188,7 +186,7 @@ const Flow = () => {
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
               />
-              <button onClick={() => sendData(title)}>Criar</button>
+              <button onClick={() => addNode(title)}>Criar</button>
             </div> : nodeType === "date" ?
             <div className={styles.date}>
               <label htmlFor="date-start">Selecione uma data:</label>
@@ -202,7 +200,7 @@ const Flow = () => {
                 max="2023-12-31"
                 onChange={(event) => setDate(event.target.value)}
               />
-              <button onClick={() => sendData(date)}>Criar</button>
+              <button onClick={() => addNode(date)}>Criar</button>
             </div> : nodeType === "valor" ?
             <div className={styles.valor}>
               <label htmlFor="valor">Valor:</label>
@@ -216,7 +214,7 @@ const Flow = () => {
                 max="10000"
                 onChange={(event) => setValor(event.target.value)}
               />
-              <button onClick={() => sendData(valor)}>Criar</button>
+              <button onClick={() => addNode(valor)}>Criar</button>
             </div> : 
             <div></div>
           }
