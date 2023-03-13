@@ -2,16 +2,15 @@ import Head from 'next/head';
 import { useCallback, useEffect, useState, useRef } from 'react';
 import ReactFlow, { ReactFlowProvider, Controls, useNodesState, useEdgesState, addEdge, updateEdge, MiniMap, useReactFlow } from 'reactflow';
 
-import ColorSelectorNode from '../components/ColorSelectorNode';
+import ImageNode from '../components/ImageNode';
 
 import styles from '../styles/flow.module.scss';
 import 'reactflow/dist/style.css';
 import { IoMdArrowDropdown } from 'react-icons/io'
 
-const initBgColor = '#1A192B';
 const flowKey = 'example-flow';
 const nodeTypes = {
-  selectorNode: ColorSelectorNode,
+  imageNode: ImageNode,
 };
 
 const initialNodes = [
@@ -72,7 +71,7 @@ const nodeColor = (node) => {
   switch (node.type) {
     case 'input':
       return '#6ede87';
-    case 'output':
+    case 'imageNode':
       return '#6865A5';
     default:
       return '#ff0072';
@@ -167,7 +166,7 @@ const Flow = () => {
     const newNodes = [...nodes,
       {
         id: String(nodes.length+1),
-        type: 'selectorNode',
+        type: 'imageNode',
         data: { label: `${name}` },
         style: { border: '1px solid #777', padding: 10 },
         position: { x: (500 + (nodes.length - 8) * 100), y: 0 }
