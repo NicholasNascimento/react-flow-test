@@ -197,23 +197,6 @@
   box-shadow: 10px 10px 14px -3px rgba(0,0,0,0.75);
 }
 
-.picture__input {
-  width: 100%;
-  aspect-ratio: 16/9;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-
-  img {
-    max-width: 100%;
-  }
-}
-
-.picture__img {
-  max-width: 100%;
-}
-
 .save__controls {
   position: absolute;
   left: 10px;
