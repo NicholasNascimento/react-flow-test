@@ -11,13 +11,13 @@ const flowKey = 'example-flow';
 const initialNodes = [
   {
     id: '1',
-    data: { label: 'O que você gostaria de fazer com esse móvel' },
+    data: { label: 'O que você gostaria de fazer com esse automóvel?' },
     position: { x: 300, y: 0 },
     type: 'input',
   },
   {
     id: '2',
-    data: { label: 'Na faixa de preço' },
+    data: { label: 'Na faixa de preço:' },
     position: { x: 0, y: 200 },
   },
   {
@@ -27,7 +27,7 @@ const initialNodes = [
   },
   {
     id: '4',
-    data: { label: 'Qual é o defeito' },
+    data: { label: 'Qual é o defeito?' },
     position: { x: 400, y: 200 },
   },
   {
@@ -37,17 +37,17 @@ const initialNodes = [
   },
   {
     id: '6',
-    data: { label: 'Vermelho' },
+    data: { label: '🚗' },
     position: { x: 300, y: 350 },
   },
   {
     id: '7',
-    data: { label: 'Azul' },
+    data: { label: '🚙' },
     position: { x: 500, y: 350 },
   },
   {
     id: '8',
-    data: { label: 'Adicionar led' },
+    data: { label: 'Trocar pneus' },
     position: { x: 700, y: 400 },
   }
 ];
@@ -59,7 +59,7 @@ const initialEdges = [
   { id: 'e1-5', source: '1', target: '5', label: 'Decorar' },
   { id: 'e5-6', source: '5', target: '6', label: 'Pintar' },
   { id: 'e5-7', source: '5', target: '7', label: 'Pintar' },
-  { id: 'e5-8', source: '5', target: '8', label: 'Enfeitar' }
+  { id: 'e5-8', source: '5', target: '8', label: 'Customizar' }
 ];
 
 const nodeColor = (node) => {
@@ -176,7 +176,6 @@ const Flow = () => {
               <button onClick={() => changeNodeType("text")}>Texto</button>
               <button onClick={() => changeNodeType("date")}>Data</button>
               <button onClick={() => changeNodeType("valor")}>Valor</button>
-              <button onClick={() => changeNodeType("image")}>Imagem</button>
             </div>
           }
         </div>
@@ -218,32 +217,7 @@ const Flow = () => {
                 onChange={(event) => setValor(event.target.value)}
               />
               <button onClick={() => sendData(valor)}>Criar</button>
-            </div> : nodeType === "image" ?
-            <div className={styles.picture}>
-              <label>
-                <input
-                  type="file"
-                  hidden
-                  onChange={({ target }) => {
-                    if (target.files) {
-                      const file = target.files[0]
-                      setSelectedImage(URL.createObjectURL(file))
-                      setSelectedFile(file)
-                    }
-                  }}
-                />
-                <div className={styles.picture__input}>
-                  {
-                    selectedImage ? (
-                      <img src={selectedImage} alt="" />
-                    ) : (
-                      <span>Select Image</span>
-                    )
-                  }
-                </div>
-              </label>
-              <button>Upload</button>
-            </div> :
+            </div> : 
             <div></div>
           }
         </div>
