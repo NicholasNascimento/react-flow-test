@@ -8,7 +8,6 @@ export default memo(() => {
         type="target"
         position={Position.Left}
         style={{ background: '#555' }}
-        onConnect={(params) => console.log('handle onConnect', params)}
       />
       <img src="/car.jpg" alt="" style={{ width: "200px", height: "100px" }} />
       <Handle
