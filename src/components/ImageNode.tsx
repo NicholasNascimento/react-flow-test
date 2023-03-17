@@ -9,7 +9,10 @@ export default memo(() => {
         position={Position.Left}
         style={{ background: '#555' }}
       />
-      <img src="/car.jpg" alt="" style={{ width: "200px", height: "100px" }} />
+      <div>
+        <input type="text" />
+        <button>Confirmar</button>
+      </div>
       <Handle
         type="source"
         position={Position.Right}
