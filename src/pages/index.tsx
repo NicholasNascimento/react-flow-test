@@ -1,24 +1,28 @@
 import Head from 'next/head';
-import { useCallback, useEffect, useState, useRef } from 'react';
+import { useCallback, useEffect, useState, useRef, useContext } from 'react';
 import ReactFlow, { ReactFlowProvider, Background, Controls, useNodesState, useEdgesState, addEdge, updateEdge, MiniMap, useReactFlow } from 'reactflow';
 
+import TextInputNode from '../components/TextInputNode';
+import NumberInputNode from '../components/NumberInputNode';
 import ImageNode from '../components/ImageNode';
 
 import styles from '../styles/flow.module.scss';
 import 'reactflow/dist/style.css';
-import { IoMdArrowDropdown } from 'react-icons/io'
+import { DataContext } from '../DataContext';
 
 const flowKey = 'example-flow';
 const nodeTypes = {
-  imageNode: ImageNode,
+  textInputNode: TextInputNode,
+  numberInputNode: NumberInputNode,
+  imageNode: ImageNode
 };
 
 const initialNodes = [
   {
     id: '1',
-    type: 'imageNode',
+    type: 'textInputNode',
     data: { label: 'Hello World' },
-    style: { border: '1px solid #777', padding: 10 },
+    style: { border: '1px solid #777', borderRadius: '10px' },
     position: { x: 0, y: 0 }
   }
 ];
@@ -39,15 +43,11 @@ const nodeColor = (node) => {
 const Flow = () => {
   const [nodes, setNodes , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [nodeType, setNodeType] = useState("text")
-  const [title, setTitle] = useState("")
-  const [date, setDate] = useState("2018-07-22")
-  const [valor, setValor] = useState("")
-  const [active, setActive] = useState(false)
   const [rfInstance, setRfInstance] = useState(null)
   const edgeUpdateSuccessful = useRef(true);
   const { setViewport } = useReactFlow()
   const [variant, setVariant] = useState();
+  const { userName, setUserName, userAge, setUserAge, nodesNumber, setNodesNumber } = useContext(DataContext)
 
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
 
@@ -60,8 +60,10 @@ const Flow = () => {
 
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {
-      setNodes(initialNodes);
-      setEdges(initialEdges);
+      setNodes(initialNodes)
+      setEdges(initialEdges)
+      setUserName('')
+      setUserAge('')
     };
 
     restoreFlow();
@@ -84,64 +86,85 @@ const Flow = () => {
     edgeUpdateSuccessful.current = true;
   }, []);
 
-  function addNode(name: string) {
+  function addAgeNode(name: string, x: number, y: number) {
     const newNodes = [...nodes,
       {
         id: String(nodes.length+1),
-        data: { label: `${name}` },
-        position: { x: (500 + (nodes.length - 8) * 100), y: 0 }
+        type: 'numberInputNode',
+        data: { label: `Olá ${name}! Informe sua idade` },
+        position: { x, y }
       },
     ]
+
+    setEdges([
+      { id: 'edge-1', source: '1', target: String(nodes.length+1), sourceHandle: 'a' }
+    ])
 
     try {
       setNodes(newNodes)
     } catch(error) {
       console.log(error)
-    } finally {
-      setTitle("")
-      setValor("")
     }
   }
 
-  function changeNodeType(type: string){
-    setActive(!active)
-    setNodeType(type)
+  function addImageNode(x: number, y: number) {
+    const newNodes = [...nodes,
+      {
+        id: String(nodes.length+1),
+        type: 'imageNode',
+        data: { label: `` },
+        position: { x, y }
+      },
+    ]
+
+    setEdges([...edges,
+      { id: 'edge-2', source: '2', target: String(nodes.length+1), sourceHandle: 'a' }
+    ])
+
+    try {
+      setNodes(newNodes)
+    } catch(error) {
+      console.log(error)
+    }
   }
+
+  useEffect(() => {
+    if(userName !== '') {
+      addAgeNode(userName, 0, 200)
+      setNodesNumber(nodesNumber+1)
+      localStorage.setItem('user-name', JSON.stringify(userName));
+    }
+  }, [userName])
+
+  useEffect(() => {
+    if(userAge !== '') {
+      addImageNode(-200, 400)
+      setNodesNumber(nodesNumber+1)
+      localStorage.setItem('user-age', JSON.stringify(userAge));
+    }
+  }, [userAge])
 
   useEffect(() => {
     if(localStorage.getItem(flowKey)){
       const flow = JSON.parse(localStorage.getItem(flowKey));
+      const name = JSON.parse(localStorage.getItem('user-name'));
+      const age = JSON.parse(localStorage.getItem('user-age'));
 
       if (flow) {
         const { x = 0, y = 0, zoom = 1 } = flow.viewport;
         setNodes(flow.nodes || []);
         setEdges(flow.edges || []);
         setViewport({ x, y, zoom });
+        setUserName(name)
+        setUserAge(age)
+        setNodesNumber(flow.nodes.length)
       }
     }
   }, [])
 
-  function addImage() {
-    const newNodes = [...nodes,
-      {
-        id: String(nodes.length+1),
-        type: 'imageNode',
-        data: { label: `${name}` },
-        style: { border: '1px solid #777', padding: 10 },
-        position: { x: (500 + (nodes.length - 8) * 100), y: 0 }
-      },
-    ]
-
-    try {
-      setNodes(newNodes)
-    } catch(error) {
-      console.log(error)
-    }
-  }
-
   useEffect(() => {
-    console.log(setViewport)
-  }, [setViewport])
+    setNodesNumber(nodes.length)
+  }, [nodes])
 
   return (
     <main className={styles.main}>

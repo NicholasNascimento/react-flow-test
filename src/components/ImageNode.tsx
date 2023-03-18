@@ -1,30 +1,20 @@
-import React, { memo } from 'react';
+import React, { memo, useContext } from 'react';
 import { Handle, Position } from 'reactflow';
 
+import { DataContext } from '../DataContext';
+
+import styles from '../styles/flow.module.scss';
+
 export default memo(() => {
+  const { userAge } = useContext(DataContext)
+
   return (
-    <>
-      <Handle
-        type="target"
-        position={Position.Left}
-        style={{ background: '#555' }}
-      />
-      <div>
-        <input type="text" />
-        <button>Confirmar</button>
-      </div>
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="a"
-        style={{ top: 10, background: '#555' }}
-      />
-      <Handle
-        type="source"
-        position={Position.Right}
-        id="b"
-        style={{ bottom: 10, top: 'auto', background: '#555' }}
-      />
-    </>
-  );
-});
+    <div className={styles['image-box']}>
+      <Handle type="target" position={Position.Top} />
+      {Number(userAge) >= 18 ?
+      <img src={"./drink.jpg"} alt="Drink Image" /> :
+      <img src='./block.png' alt='Block Image' />
+      }
+    </div>
+  )
+})
