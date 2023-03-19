@@ -28,7 +28,7 @@ export default memo(() => {
         min={0}
         max={100}
         onChange={event => setAge(event.target.value)}
-        disabled={nodesNumber>2}
+        disabled={nodesNumber>1}
       />
       <button onClick={() => NewUserName()}>Confirmar</button>
       <Handle

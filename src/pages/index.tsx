@@ -158,6 +158,7 @@ const Flow = () => {
         setUserName(name)
         setUserAge(age)
         setNodesNumber(flow.nodes.length)
+        console.log(nodesNumber)
       }
     }
   }, [])
